@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <!-- End Responsive -->
+    <link rel=icon href="./assets/favicon.ico" sizes="32x32" type="image/vnd.microsoft.icon">
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.1.0/css/calcite-web.min.css">
+    <!--<link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.1.0/css/calcite-web-dark.min.css">-->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/places.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/themes/dark/main.css">-->
+    <script src="./app/dojo.js"></script>
+    <script src="https://js.arcgis.com/4.9/"></script>
+    <script>require(["Application/init"]);</script>
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body class="configurable-application--loading">
+
+    <!-- DETAILS -->
+    <div class="js-modal modal-overlay" data-modal="app-details-dialog">
+      <div class="modal-content column-14" aria-labelledby="modal" role="dialog">
+        <span class="js-modal-toggle esri-interactive icon-ui-close right" aria-label="close-modal"></span>
+        <h3 class='trailer-half text-blue'>Configurable Markup Application</h3>
+        <div class="panel panel-white panel-no-border">
+          This application loads a web scene and provides simple markup capabilities via the ArcGIS API for
+          JavaScript 4.x. Add a FeatureLayer of points with Zs named "Feedback - Feedback" to your web scene and then append your
+          web scene id to this url:
+          <span class="avenir-demi">../index.html?webscene=<span class="avenir-demi-italic">your web scene id here</span></span>
+          <div>
+            Please use
+            <a href="https://www.arcgis.com/home/item.html?id=b55fbbb3b22248f08d23c41f17addbf0" target="_blank" class="avenir-demi">this</a>
+            FeatureLayer as a template.
+          </div>
+        </div>
+        <div>
+          This application is built using:
+          <ul>
+            <li>
+              <a href="https://developers.arcgis.com/javascript/" target="_blank">Esri ArcGIS API for Javascript 4.x</a>
+            </li>
+            <li>
+              <a href="https://github.com/Esri/application-base-js" target="_blank">Esri ApplicationBase</a>
+              <span>&nbsp;&&nbsp;</span>
+              <a href="https://github.com/Esri/configurable-app-examples-4x-js" target="_blank">Configurable App Example</a>
+            </li>
+            <li>
+              <a href="http://esri.github.io/calcite-web/" target="_blank">Esri Calcite Web Framework</a>
+            </li>
+          </ul>
+        </div>
+        <img src="./assets/esri_science_of_where.png" class="left">
+        <div class="text-right">
+          <button class="btn js-modal-toggle">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP SIDE DRAWER -->
+    <div id="map-side-drawer" class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <div class="panel panel-white panel-no-border">
+          <div id="current-map-card" class="card block margin-left-quarter margin-right-quarter">
+            <figure class="card-image-wrap">
+              <img id="current-map-card-thumb" class="card-image" src="" alt="">
+              <div id="current-map-card-caption" class="card-image-caption text-right font-size--3"></div>
+            </figure>
+            <div class="card-content">
+              <h4><a id="current-map-card-title" href="" target="_blank"></a></h4>
+              <p id="current-map-card-description" class="card-last font-size--3"></p>
+            </div>
+          </div>
+        </div>
+        <!--<div id="layer-list-panel" class="panel panel-no-padding">-->
+        <div id="layer-list-container"></div>
+        <!--</div>-->
+        <div class="trailer-half">
+          <h2 class="side-nav-title">Social</h2>
+          <div class="text-center padding-leader-half">
+            <span class="icon-social-contact" aria-label="Email"></span>
+            <span class="icon-social-geonet" aria-label="GeoNet"></span>
+            <span class="icon-social-facebook" aria-label="Facebook"></span>
+            <span class="icon-social-twitter" aria-label="Twitter"></span>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- TOP NAVIGATION -->
+    <header class="panel panel-no-padding panel-blue padding-left-2 padding-right-2">
+
+      <!-- APP TITLE -->
+      <span id="app-title-node" class="top-nav-title text-white"></span>
+
+      <!-- MAP AND CONTENT -->
+      <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+        <span class="top-nav-link esri-interactive js-drawer-toggle text-white margin-left-3" data-drawer="top-nav">Map</span>
+      </nav>
+
+      <!-- RIGHT ALIGNED -->
+      <nav class="top-nav-list right" role="navigation">
+
+        <!-- SIGN IN NODE -->
+        <span id="sign-in-node" class="top-nav-link text-white esri-interactive icon-ui-user margin-left-1">Sign In</span>
+
+        <!-- USER NODE -->
+        <div id="user-node" class="dropdown js-dropdown margin-left-1 text-white hide">
+          <span class="top-nav-link icon-ui-user text-white margin-left-1 esri-interactive js-dropdown-toggle" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <span id="user-firstname-node"></span>
+          </span>
+          <nav class="dropdown-menu dropdown-right" role="menu">
+            <span class="dropdown-title">
+              <span id="user-fullname-node"></span>
+              <br>
+              <img id="user-thumb-node" src="">
+              <small><span id="username-node"></span></small>
+            </span>
+            <a href="https://developers.arcgis.com/community/support" target="_blank" class="dropdown-link icon-ui-support" role="menu-item">Support</a>
+            <a href="https://developers.arcgis.com/feedback/" target="_blank" class="dropdown-link icon-ui-link-external" role="menu-item">Feedback</a>
+            <span id="sign-out-node" class="dropdown-link esri-interactive icon-ui-sign-out" role="menu-item">Sign Out</span>
+          </nav>
+        </div>
+
+        <!-- APP DETAILS -->
+        <span class="top-nav-link icon-ui-description text-white js-modal-toggle margin-left-1 esri-interactive" data-modal="app-details-dialog"></span>
+
+      </nav>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div id="main-container">
+
+      <div id="feedback-container" class="panel panel-white panel-no-border">
+
+        <aside id="feedback-list-container" class="side-nav trailer-half" aria-role="complementary">
+          <div class="side-nav-title font-size-0">
+            <span class="text-blue">Feedback</span>
+            <mark id="feedback-list-count" class="label label-blue right">0</mark>
+          </div>
+          <nav id="feedback-list" role="navigation" aria-labelledby="sidenav"></nav>
+        </aside>
+
+        <div id="add-feedback-panel" class="panel">
+          <button id="add-feedback-btn" class="btn btn-fill icon-ui-edit btn-disabled">Add New Feedback</button>
+          <div id="feature-form-container" class="hide">
+            <div class="panel">
+              <span>Location:&nbsp;</span>
+              <span id="location-node" class="avenir-italic font-size--3">click on the map to set the location</span>
+            </div>
+            <div id="feature-form"></div>
+            <div class="text-center">
+              <button id="submit-feedback-btn" title="Make sure all attributes are filled out..." class="btn btn-disabled icon-ui-upload">Submit Feedback</button>
+              <button id="cancel-feedback-btn" class="btn icon-ui-close">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="view-container"></div>
+
+    </div>
+
+    <!-- TOOLS PANEL -->
+    <div id="tools-panel" class="panel panel-white hide">
+      <label class="toggle-switch trailer-half">
+        <input id="ground-opacity-input" type="checkbox" class="toggle-switch-input">
+        <span class="toggle-switch-track"></span>
+        <span class="toggle-switch-label font-size--3">See Through Ground</span>
+      </label>
+      <div id="slides-container" class="panel text-center"></div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="notifications-node"></div>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "title": "Underground Singapore",
+  "appid": "",
+  "group": "",
+  "webmap": "",
+  "webscene_tp": "8e24af34b42a4824991e3ecbc8f0d0c0",
+  "webscene": "389f4878fdf844839b12c29fbb3d8ad5",
+  "portalUrl": "https://www.arcgis.com",
+  "oauthappid_none": null,
+  "oauthappid": "hrFP8yDGOiGFx4ub",
+  "proxyUrl": "https://maps.esri.com/proxy/DotNet/proxy.ashx",
+  "units": "dual",
+  "helperServices": {
+    "geometry": {
+      "url": null
+    },
+    "printTask": {
+      "url": null
+    },
+    "elevationSync": {
+      "url": null
+    },
+    "geocode": [
+      {
+        "url": null
+      }
+    ]
+  }
+}
